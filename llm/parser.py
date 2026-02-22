@@ -1,19 +1,19 @@
 import json
 import re
 
-def parse_llm_output(output: str):
-    """
-    Extract JSON safely from LLM output
-    """
+def parse_llm_output(text: str):
     try:
-        match = re.search(r"\{.*\}", output, re.DOTALL)
-        if not match:
-            raise ValueError("No JSON found")
+        match = re.search(r"\{.*\}", text, re.DOTALL)
+        data = json.loads(match.group())
 
-        return json.loads(match.group())
+        # Guarantee tool key exists
+        if "tool" not in data:
+            data["tool"] = None
+
+        return data
     except Exception:
         return {
             "intent": "unknown",
-            "goal": "clarify_request",
-            "plan": ["ask_user_for_clarification"]
+            "goal": "clarify",
+            "tool": None
         }

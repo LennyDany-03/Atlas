@@ -1,29 +1,61 @@
-import re
-from tools.system import open_spotify, play_spotify_music, open_clock_app
-from tools.timer import start_timer
+from tools.permissions import check_permission
 
-def execute_tool(action: str):
-    action = action.lower()
+# system tools
+from tools.system_tools.apps import open_app, close_app
+from tools.system_tools.browser import open_url
+from tools.system_tools.files import read_file, write_file, delete_file
+from tools.system_tools.shell import run_command
+from tools.system_tools.input import press_key, type_text, mouse_click
+from tools.system_tools.power import shutdown, restart, sleep
 
-    # 🎵 Spotify
-    if "play" in action and "spotify" in action:
-        return play_spotify_music()
+TOOL_MAP = {
+    # apps
+    "open_app": open_app,
+    "close_app": close_app,
 
-    if "open spotify" in action or "spotify" in action:
-        return open_spotify()
+    # browser
+    "open_url": open_url,
 
-    # ⏱️ Timer (seconds)
-    timer_match = re.search(r"(\d+)\s*(second|sec)", action)
-    if timer_match:
-        seconds = int(timer_match.group(1))
-        open_clock_app()
-        return start_timer(seconds)
+    # files
+    "read_file": read_file,
+    "write_file": write_file,
+    "delete_file": delete_file,
 
-    # ⏱️ Timer (minutes)
-    minute_match = re.search(r"(\d+)\s*(minute|min)", action)
-    if minute_match:
-        seconds = int(minute_match.group(1)) * 60
-        open_clock_app()
-        return start_timer(seconds)
+    # shell
+    "run_command": run_command,
 
-    return "No matching tool found for this action"
+    # input
+    "press_key": press_key,
+    "type_text": type_text,
+    "mouse_click": mouse_click,
+
+    # power
+    "shutdown": shutdown,
+    "restart": restart,
+    "sleep": sleep,
+}
+
+def execute_tool(tool_call: dict):
+    """
+    tool_call format:
+    {
+      "name": "open_app",
+      "args": { "name": "spotify" }
+    }
+    """
+    if not tool_call:
+        return "No tool requested"
+
+    tool_name = tool_call.get("name")
+    args = tool_call.get("args", {})
+
+    if tool_name not in TOOL_MAP:
+        return f"Unknown tool: {tool_name}"
+
+    if not check_permission(tool_name):
+        return "❌ Permission denied"
+
+    try:
+        return TOOL_MAP[tool_name](**args)
+    except Exception as e:
+        return f"⚠️ Tool execution failed: {e}"
