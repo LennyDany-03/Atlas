@@ -60,3 +60,66 @@ ATLAS is designed to:
 ---
 
 ## 🧩 High-Level Architecture
+
+---
+
+## 🛡️ Safety & Control Philosophy
+
+ATLAS is built with **control-first automation** in mind:
+
+- Explicit permissions for sensitive actions
+- Human approval for critical tasks
+- Full action logs and traceability
+- Fail-safe execution and rollback where possible
+
+Automation should be powerful — **not dangerous**.
+
+---
+
+## 🏗️ Project Status
+
+🚧 **Early Development / Experimental**
+
+ATLAS is currently under active development.  
+APIs, architecture, and features may change rapidly.
+
+---
+
+## 🛣️ Roadmap (High-Level)
+
+- [ ] Core agent loop (Intent → Plan → Execute)
+- [ ] Tool execution framework
+- [ ] OS-level automation layer
+- [ ] Memory & context system
+- [ ] Voice interface
+- [ ] Plugin / extension system
+
+---
+
+## 🤝 Contributing
+
+Contributions, ideas, and discussions are welcome.
+
+If you’re interested in:
+- Agentic AI
+- Automation systems
+- LLM tooling
+- OS-level control
+
+Feel free to open issues or pull requests.
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.  
+You are free to use, modify, and distribute this software with attribution.
+
+---
+
+## 🧠 Final Note
+
+ATLAS is not meant to replace humans.  
+It is meant to **carry the load**, so humans can focus on what matters.
+
+**ATLAS — Turning intent into action.**
